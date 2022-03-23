@@ -92,12 +92,12 @@ class PermissionController extends Controller
      * Notes: 软删除
      * User: 一颗地梨子
      * DateTime: 2022/2/17 15:07
-     * @param $id
+     * @param PermissionRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete( $id )
+    public function delete( PermissionRequest $request )
     {
-        if ( ! Permission::where("id", $id)->delete()  ) {
+        if ( ! Permission::whereIn( "id", $request->get("ids") )->delete()  ) {
             return $this->fail();
         }
 
@@ -108,12 +108,12 @@ class PermissionController extends Controller
      * Notes: 还原
      * User: 一颗地梨子
      * DateTime: 2022/3/22 11:28
-     * @param $id
+     * @param PermissionRequest $request
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function restore( $id )
+    public function restore( PermissionRequest $request )
     {
-        if ( ! Permission::where( "id", $id )->restore() ) {
+        if ( ! Permission::whereIn( "id", $request->get("ids") )->restore() ) {
             return $this->fail();
         }
         return $this->ok();

@@ -97,12 +97,12 @@ class AdminController extends Controller
      * Notes: 软删除
      * User: 一颗地梨子
      * DateTime: 2022/2/17 15:07
-     * @param $id
+     * @param AdminRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete( $id )
+    public function delete( AdminRequest $request )
     {
-        if ( ! Admin::where( "id", $id )->delete() ) {
+        if ( ! Admin::whereIn( "id", $request->get("ids") )->delete() ) {
             return $this->fail();
         }
         return $this->ok();
@@ -112,12 +112,12 @@ class AdminController extends Controller
      * Notes: 还原删除
      * User: 一颗地梨子
      * DateTime: 2022/2/17 15:07
-     * @param $id
+     * @param AdminRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function restore( $id )
+    public function restore( AdminRequest $request )
     {
-        if ( ! Admin::where( "id", $id )->restore() ) {
+        if ( ! Admin::whereIn( "id", $request->get("ids") )->restore() ) {
             return $this->fail();
         }
         return $this->ok();

@@ -8,6 +8,14 @@
     完善 storate 目录
     执行 composer install
     创建 .env 文件, 并修改配置信息
+    修改底层数据迁移时自动处理 created_at和updated_at 
+        打开 database/migrations/ 下随便一个文件、ctrl 单机 timestamps() 修改如下
+        （文件：vendor/laravel/framework/src/Illuminate/Database/Schema/Blueprint.php  行号：1134）
+            public function timestamps($precision = 0)
+            {
+                $this->timestamp('created_at', $precision)->useCurrent();
+                $this->timestamp('updated_at', $precision)->nullable()->useCurrentOnUpdate();
+            }
     迁移数据执行 php artisan migrate
     填充后台账号信息 php artisan db:seed --class=AdminSeed
     启动项目 php artisan serve --port=8080

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\IsMenuEnum;
 use App\Enums\StatusEnum;
+use Illuminate\Support\Str;
 
 class PermissionRequest extends CommonRequest
 {
@@ -28,7 +29,7 @@ class PermissionRequest extends CommonRequest
                 /// TODO 添加
                 return [
                     'parent_id' => 'bail|integer',
-                    'name'      => 'bail|required|between:2,255|unique:permissions,name',
+                    'name'      => 'bail|required|between:2,191|unique:permissions,name',
                     'title'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,title',
                     'route'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,route',
                     'icon'      => 'bail|exclude_unless:parent_id,false|max:255',
@@ -39,19 +40,32 @@ class PermissionRequest extends CommonRequest
 
             case "PUT":
 
-                // 路由中的参数
-                $permission_id = $this->route( 'id' );
+                if ( Str::contains( $path, 'admin.permission.restore' ) ) {
+                    /// TODO 还原删除
+                    return [
+                        'ids' => "bail|required|array"
+                    ];
+                } else {
+                    // 路由中的参数
+                    $permission_id = $this->route( 'id' );
 
-                /// TODO 更新
+                    /// TODO 更新
+                    return [
+                        'parent_id' => 'bail|integer',
+                        'name'      => 'bail|required|between:2,191|unique:permissions,name,' . $permission_id,
+                        'title'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,title,' . $permission_id,
+                        'route'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,route,' . $permission_id,
+                        'icon'      => 'bail|exclude_unless:parent_id,false|max:255',
+                        'is_menu'   => 'bail|required|integer|in:' . join( ",", IsMenuEnum::getAllKey() ),
+                        'status'    => 'bail|required|integer|in:' . join( ",", StatusEnum::getAllKey() ),
+                        'sort'      => 'bail|between:1,255',
+                    ];
+                }
+
+            case "DELETE":
+                /// TODO 删除
                 return [
-                    'parent_id' => 'bail|integer',
-                    'name'      => 'bail|required|between:2,255|unique:permissions,name,' . $permission_id,
-                    'title'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,title,' . $permission_id,
-                    'route'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,route,' . $permission_id,
-                    'icon'      => 'bail|exclude_unless:parent_id,false|max:255',
-                    'is_menu'   => 'bail|required|integer|in:' . join( ",", IsMenuEnum::getAllKey() ),
-                    'status'    => 'bail|required|integer|in:' . join( ",", StatusEnum::getAllKey() ),
-                    'sort'      => 'bail|between:1,255',
+                    'ids' => "bail|required|array"
                 ];
         }
     }

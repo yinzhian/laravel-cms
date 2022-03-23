@@ -91,13 +91,13 @@ class RoleController extends Controller
      * Notes: 软删除
      * User: 一颗地梨子
      * DateTime: 2022/2/17 15:07
-     * @param $id
+     * @param RoleRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete( $id )
+    public function delete( RoleRequest $request )
     {
 
-        if ( ! Role::where( "id", $id )->delete() ) {
+        if ( ! Role::whereIn( "id", $request->get("ids") )->delete() ) {
             return $this->fail();
         }
 
@@ -108,12 +108,12 @@ class RoleController extends Controller
      * Notes: 还原
      * User: 一颗地梨子
      * DateTime: 2022/3/22 11:23
-     * @param $id
+     * @param RoleRequest $request
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function restore( $id )
+    public function restore( RoleRequest $request )
     {
-        if ( !Role::where( "id", $id )->restore() ) {
+        if ( !Role::whereIn( "id", $request->get("ids") )->restore() ) {
             return $this->fail();
         }
         return $this->ok();

@@ -45,8 +45,8 @@ Route::prefix( "/" )->middleware( "operate.log" )->group( function () use ( $app
             Route::get( "/{id}", [ AdminController::class, "detail" ] )->name( "detail" );
             Route::post( "/", [ AdminController::class, "create" ] )->name( "create" );
             Route::put( "/{id}", [ AdminController::class, "update" ] )->name( "update" );
-            Route::delete( "/{id}", [ AdminController::class, "delete" ] )->name( "delete" );
-            Route::put( "/restore/{id}", [ AdminController::class, "restore" ] )->name( "restore" );
+            Route::delete( "/", [ AdminController::class, "delete" ] )->name( "delete" );
+            Route::put( "/restore", [ AdminController::class, "restore" ] )->name( "restore" );
             Route::put( "/{id}/addRole", [ AdminController::class, "addRole" ] )->name( "addRole" );
             Route::put( "/{id}/empower", [ AdminController::class, "empower" ] )->name( "empower" );
 
@@ -60,8 +60,8 @@ Route::prefix( "/" )->middleware( "operate.log" )->group( function () use ( $app
             Route::get( "/{id}", [ RoleController::class, "detail" ] )->name( "detail" );
             Route::post( "/", [ RoleController::class, "create" ] )->name( "create" );
             Route::put( "/{id}", [ RoleController::class, "update" ] )->name( "update" );
-            Route::delete( "/{id}", [ RoleController::class, "delete" ] )->name( "delete" );
-            Route::put( "/restore/{id}", [ RoleController::class, "restore" ] )->name( "restore" );
+            Route::delete( "/", [ RoleController::class, "delete" ] )->name( "delete" );
+            Route::put( "/restore", [ RoleController::class, "restore" ] )->name( "restore" );
             Route::put( "/{id}/empower", [ RoleController::class, "empower" ] )->name( "empower" );
 
         } );
@@ -74,8 +74,8 @@ Route::prefix( "/" )->middleware( "operate.log" )->group( function () use ( $app
             Route::get( "/{id}", [ PermissionController::class, "detail" ] )->name( "detail" );
             Route::post( "/", [ PermissionController::class, "create" ] )->name( "create" );
             Route::put( "/{id}", [ PermissionController::class, "update" ] )->name( "update" );
-            Route::delete( "/{id}", [ PermissionController::class, "delete" ] )->name( "delete" );
-            Route::put( "/restore/{id}", [ PermissionController::class, "restore" ] )->name( "restore" );
+            Route::delete( "/", [ PermissionController::class, "delete" ] )->name( "delete" );
+            Route::put( "/restore", [ PermissionController::class, "restore" ] )->name( "restore" );
 
         } );
 
