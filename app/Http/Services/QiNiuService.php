@@ -18,10 +18,10 @@ class QiNiuService
 
     public function __construct()
     {
-        $this->access = (string) Config::getValue( "QINIU_ACCESS_KEY" ) ?? env( "QINIU_ACCESS_KEY" );
-        $this->secret = (string) Config::getValue( "QINIU_SECRET_KEY" ) ?? env( "QINIU_SECRET_KEY" );
-        $this->bucket = (string) Config::getValue( "QINIU_BUCKET" ) ?? env( "QINIU_BUCKET" );
-        $this->domain = (string) Config::getValue( "QINIU_DOMAIN" ) ?? env( "QINIU_DOMAIN" );
+        $this->access = (string) Config::getValue( "QINIU_ACCESS_KEY" );
+        $this->secret = (string) Config::getValue( "QINIU_SECRET_KEY" );
+        $this->bucket = (string) Config::getValue( "QINIU_BUCKET" );
+        $this->domain = (string) Config::getValue( "QINIU_DOMAIN" );
 
         $this->auth = new Auth( $this->access, $this->secret );
     }

@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\ArticleCategoryController;
+use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\CommonController;
+use App\Http\Controllers\Admin\LabelController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -96,5 +99,43 @@ Route::prefix( "/" )->middleware( "operate.log" )->group( function () use ( $app
             Route::put( "/{id}", [ ConfigController::class, "update" ] )->name( "update" );
 
         } );
+
+        // 标签管理
+        Route::prefix( "/label" )->name( "label." )->group( function () {
+
+            Route::get( "/", [ LabelController::class, "index" ] );
+            Route::get( "/all", [ LabelController::class, "getAll" ] );
+            Route::get( "/{id}", [ LabelController::class, "detail" ] )->name( "detail" );
+            Route::post( "/", [ LabelController::class, "create" ] )->name( "create" );
+            Route::put( "/{id}", [ LabelController::class, "update" ] )->name( "update" );
+            Route::delete( "/", [ LabelController::class, "delete" ] )->name( "delete" );
+            Route::put( "/restore", [ LabelController::class, "restore" ] )->name( "restore" );
+
+        } );
+
+        // 文章类目管理
+        Route::prefix( "/articleCategory" )->name( "articleCategory." )->group( function () {
+
+            Route::get( "/", [ ArticleCategoryController::class, "index" ] );
+            Route::get( "/{id}", [ ArticleCategoryController::class, "detail" ] )->name( "detail" );
+            Route::post( "/", [ ArticleCategoryController::class, "create" ] )->name( "create" );
+            Route::put( "/{id}", [ ArticleCategoryController::class, "update" ] )->name( "update" );
+            Route::delete( "/", [ ArticleCategoryController::class, "delete" ] )->name( "delete" );
+            Route::put( "/restore", [ ArticleCategoryController::class, "restore" ] )->name( "restore" );
+
+        } );
+
+        // 文章管理
+        Route::prefix( "/article" )->name( "article." )->group( function () {
+
+            Route::get( "/", [ ArticleController::class, "index" ] );
+            Route::get( "/{id}", [ ArticleController::class, "detail" ] )->name( "detail" );
+            Route::post( "/", [ ArticleController::class, "create" ] )->name( "create" );
+            Route::put( "/{id}", [ ArticleController::class, "update" ] )->name( "update" );
+            Route::delete( "/", [ ArticleController::class, "delete" ] )->name( "delete" );
+            Route::put( "/restore", [ ArticleController::class, "restore" ] )->name( "restore" );
+
+        } );
+
     } );
 } );
