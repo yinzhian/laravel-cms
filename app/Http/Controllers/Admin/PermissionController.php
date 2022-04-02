@@ -18,14 +18,7 @@ class PermissionController extends Controller
      */
     public function index( Request $request )
     {
-        // 搜索参数
-        $parent_id = (int) $request->get( "parent_id", NULL );
-        $name      = (string) $request->get( "name", "" );
-        $is_menu   = $request->get( "is_menu", NULL );
-        $status    = $request->get( "status", NULL );
-        $delete    = (bool) $request->get( "delete", false );
-
-        return $this->ok( Permission::list( $parent_id,  $name, $is_menu, $status, $delete ) );
+        return $this->ok( Permission::list( $request ) );
     }
 
     /**

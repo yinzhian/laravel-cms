@@ -38,19 +38,26 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
+
+            // 限制所有的路由参数ID 仅支持数字
+            Route::pattern('id', '[0-9]+');
+
             Route::prefix('api')
                 ->middleware('api')
+                ->middleware(['throttle:global'])
                 ->name('member.')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
             Route::prefix('admin')
                  ->name('admin.')
+                ->middleware(['throttle:global'])
                  ->namespace($this->namespace)
                  ->group(base_path('routes/admin.php'));
 
             Route::middleware('web')
                 ->namespace($this->namespace)
+                ->middleware(['throttle:global'])
                 ->group(base_path('routes/web.php'));
         });
     }
@@ -63,7 +70,35 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+            return Limit::perMinute(60)
+                        ->by(optional($request->user())->id ?: $request->ip());
+        });
+
+        // 全局路由限制
+        RateLimiter::for('global', function (Request $request) {
+            return Limit::perMinute(1000)
+                        ->by($request->ip())
+                        ->response(function () {
+                            return response('请求频繁、请稍后重试', 429);
+                        });
+        });
+
+        // 登录
+        RateLimiter::for('login', function (Request $request) {
+            if ( $request->has('username') ) {
+                // 后台登陆接口
+                return [
+                    Limit::perMinute(50)->by($request->ip()), // 每个IP每分钟限流500次
+                    Limit::perMinute(3)->by($request->input('username')), // 每个账号每分钟限流3次
+                ];
+            } else {
+                // 客户端登陆接口
+                return [
+                    Limit::perMinute(50)->by($request->ip()), // 每个IP每分钟限流500次
+                    Limit::perMinute(3)->by($request->input('login_type')), // 每个账号每分钟限流3次
+                ];
+            }
+
         });
     }
 }

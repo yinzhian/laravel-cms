@@ -18,12 +18,7 @@ class RoleController extends Controller
      */
     public function index( Request $request )
     {
-        // 搜索参数
-        $name    = (string) $request->get( "name", "" );
-        $status  = $request->get( "status", NULL );
-        $deleted = (bool) $request->get( "deleted", false );
-
-        return $this->ok( Role::list( $name, $status, $deleted ) );
+        return $this->ok( Role::list( $request ) );
     }
 
     /**

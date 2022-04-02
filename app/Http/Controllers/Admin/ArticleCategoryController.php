@@ -18,11 +18,7 @@ class ArticleCategoryController extends Controller
      */
     public function index( Request $request )
     {
-        // 参数
-        $title   = (string) $request->get( "title", "" );
-        $deleted = (bool) $request->get( "deleted", false );
-
-        return $this->ok( ArticleCategory::list( $title, $deleted ) );
+        return $this->ok( ArticleCategory::list( $request ) );
     }
 
     /**

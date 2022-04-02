@@ -6,6 +6,7 @@ use App\Enums\LabelTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Label extends Model
 {
@@ -30,8 +31,9 @@ class Label extends Model
      * @param int|mixed $type
      * @return mixed
      */
-    static function getAll( int $type = LabelTypeEnum::ARTICLE["key"] ) {
-        return self::where("type", $type)
+    static function getAll( int $type = LabelTypeEnum::ARTICLE["key"] )
+    {
+        return self::where( "type", $type )
                    ->select( "id", "title" )
                    ->orderBy( "sort", "DESC" )
                    ->orderBy( "id", "DESC" )
@@ -41,23 +43,23 @@ class Label extends Model
     /**
      * Notes: 列表
      * User: 一颗地梨子
-     * DateTime: 2022/3/23 17:54
-     * @param string $title
-     * @param null $type
-     * @param bool $deleted
+     * DateTime: 2022/4/1 13:58
+     * @param Request $request
      * @return mixed
      */
-    static function list( String $title = "", $type = NULL, bool $deleted = false ) {
+    static function list( Request $request )
+    {
 
-        $labels = self::when( $title, function ( $query ) use ( $title ) {
-            $query->where( "title", "LIKE", "%{$title}%" );
-        } )->when( filled( $type ), function ( $query ) use ( $type ) {
-            $query->where( "type", $type );
-        } )->when( $deleted, function ( $query ) {
+        $labels = self::when( $request->filled( "title" ), function ( $query ) use ( $request ) {
+            $query->where( "title", "LIKE", "%{$request->title}%" );
+        } )->when( $request->filled( "type" ), function ( $query ) use ( $request ) {
+            $query->where( "type", $request->type );
+        } )->when( $request->filled( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的
-        })->select( "id", "title", "color", "icon", "type", "sort", "created_at", 'updated_at', 'deleted_at' )
-          ->orderBy( "sort", "DESC" )
-          ->paginate( env( "APP_PAGE", 20 ) );
+        } )->select( "id", "title", "color", "icon", "type", "sort", "created_at", 'updated_at', 'deleted_at' )
+                      ->orderBy( "sort", "DESC" )
+                      ->orderBy( "id", "DESC" )
+                      ->paginate( env( "APP_PAGE", 20 ) );
 
         // 临时字段
         $labels->data = $labels->append( [ 'type_zh' ] );
@@ -72,12 +74,13 @@ class Label extends Model
      * @param int $id
      * @return mixed
      */
-    static function detail ( int $id ) {
-        $label = self::where("id", $id)
-                  ->select( "id", "title", "color", "icon", "type", "sort", "created_at", 'updated_at', 'deleted_at' )
-                  ->first();
+    static function detail( int $id )
+    {
+        $label = self::where( "id", $id )
+                     ->select( "id", "title", "color", "icon", "type", "sort", "created_at", 'updated_at', 'deleted_at' )
+                     ->first();
 
-        if ($label) $label->append( [ 'type_zh' ] );
+        if ( $label ) $label->append( [ 'type_zh' ] );
 
         return $label;
     }

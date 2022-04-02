@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role as SpatieRole;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,16 +21,16 @@ class Role extends SpatieRole
 
     protected $hidden = [];
 
-    protected function serializeDate(\DateTimeInterface $date): String
+    protected function serializeDate( \DateTimeInterface $date ) : string
     {
         return $date->format( "Y-m-d H:i:s" );
     }
 
     //protected $appends = [ 'status_zh'];
 
-    public function getStatusZhAttribute () : string
+    public function getStatusZhAttribute() : string
     {
-        return StatusEnum::getTitle($this->status);
+        return StatusEnum::getTitle( $this->status );
     }
 
     /**
@@ -39,42 +40,40 @@ class Role extends SpatieRole
      * @param int $parent_id
      * @return mixed
      */
-    static function getAll ( ) {
-        return self::where("status", StatusEnum::ENABLE["key"])
-                   ->select("id", "name", "title")
-                   ->orderBy("sort", "DESC")
-                   ->orderBy("id", "DESC")
+    static function getAll()
+    {
+        return self::where( "status", StatusEnum::ENABLE["key"] )
+                   ->select( "id", "name", "title" )
+                   ->orderBy( "sort", "DESC" )
+                   ->orderBy( "id", "DESC" )
                    ->get();
     }
 
     /**
-     * Notes: 角色
+     * Notes: 列表
      * User: 一颗地梨子
-     * DateTime: 2022/2/18 11:11
-     * @param string $name
-     * @param null $status
-     * @param bool $deleted
+     * DateTime: 2022/4/1 14:18
+     * @param Request $request
      * @return mixed
      */
-    static function list( string $name = "", $status = NULL, bool $deleted = false ) {
-
-        $roles = self::when( $name, function ( $query ) use ( $name ) {
-            $query->where( "name", "LIKE", "%{$name}%" )
-                  ->orWhere( function ( $query ) use ( $name ) {
-                      $query->where( "title", "LIKE", "%{$name}%" );
-                  });
-        })->when( filled( $status ), function ( $query ) use ( $status ) {
-            $query->where( "status", $status );
-        })->when( $deleted, function ( $query ) {
+    static function list( Request $request )
+    {
+        $roles = self::when( $request->filled( "name" ), function ( $query ) use ( $request ) {
+            $query->where( "name", "LIKE", "%{$request->name}%" )
+                  ->orWhere( function ( $query ) use ( $request ) {
+                      $query->where( "title", "LIKE", "%{$request->name}%" );
+                  } );
+        } )->when( $request->filled( "status" ), function ( $query ) use ( $request ) {
+            $query->where( "status", $request->status );
+        } )->when( $request->filled( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的
-        })->select("id", "name", "status", "sort", "created_at",'updated_at', 'deleted_at')
-          ->orderBy("sort", "DESC")
-          ->orderBy("id", "DESC")
-          //->withTrashed() // 显示所有的，包括已经进行了软删除的
-          ->paginate( env( "APP_PAGE", 20 ) );
+        } )->select( "id", "name", "status", "sort", "created_at", 'updated_at', 'deleted_at' )
+                     ->orderBy( "sort", "DESC" )
+                     ->orderBy( "id", "DESC" )
+                     ->paginate( env( "APP_PAGE", 20 ) );
 
         // 临时字段
-        $roles->data = $roles->append(['status_zh']);
+        $roles->data = $roles->append( [ 'status_zh' ] );
 
         return $roles;
     }
@@ -86,13 +85,14 @@ class Role extends SpatieRole
      * @param $id
      * @return mixed
      */
-    static function detail( $id ) {
+    static function detail( $id )
+    {
 
-        $role = self::where("id", $id)
-                    ->select("id", "name", "status", "sort",  "created_at", 'updated_at', 'deleted_at')
+        $role = self::where( "id", $id )
+                    ->select( "id", "name", "status", "sort", "created_at", 'updated_at', 'deleted_at' )
                     ->first();
 
-        $role->append(["status_zh"]);
+        $role->append( [ "status_zh" ] );
 
         $role->getAllPermissions();
 

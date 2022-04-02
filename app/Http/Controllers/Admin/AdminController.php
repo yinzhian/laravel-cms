@@ -30,12 +30,7 @@ class AdminController extends Controller
      */
     public function index( Request $request )
     {
-        // 搜索参数
-        $username = (string) $request->get( "username", "" );
-        $status   = $request->get( "status", NULL );
-        $deleted  = (bool) $request->get( "deleted", false );
-
-        return $this->ok( Admin::list( $username, $status, $deleted ) );
+        return $this->ok( Admin::list( $request ) );
     }
 
     /**

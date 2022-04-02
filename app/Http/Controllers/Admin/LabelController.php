@@ -19,14 +19,7 @@ class LabelController extends Controller
      */
     public function index( Request $request )
     {
-        // 参数
-        $title   = (string) $request->get( "title", "" );
-        $type    = $request->get( "type", NULL );
-        $deleted = (bool) $request->get( "deleted", false );
-
-        $labels = Label::list( $title, $type, $deleted );
-
-        return $this->ok( $labels );
+        return $this->ok( Label::list( $request ) );
     }
 
     /**

@@ -18,12 +18,7 @@ class ArticleController extends Controller
      */
     public function index( Request $request )
     {
-        // 参数
-        $article_category_id = (int) $request->get( "article_category_id", 0 );
-        $title               = (string) $request->get( "title", "" );
-        $deleted             = (bool) $request->get( "deleted", false );
-
-        return $this->ok( Article::list( $article_category_id, $title, $deleted ) );
+        return $this->ok( Article::list( $request ) );
     }
 
     /**
