@@ -36,27 +36,13 @@ class ArticleCategoryRequest extends CommonRequest
 
             case "PUT":
 
-                if ( Str::contains( $path, 'admin.articleCategory.restore' ) ) {
-                    /// TODO 还原
-                    return [
-                        'ids' => "bail|required|array",
-                    ];
-                } else {
-                    // 路由中的参数
-                    $id = $this->route( 'id' );
+                // 路由中的参数
+                $id = $this->route( 'id' );
 
-                    /// TODO 更新
-                    return [
-                        'title' => "bail|required|between:2,32|unique:article_categories,title,{$id}",
-                        'sort'  => 'bail|integer|max:255',
-                    ];
-                }
-
-            case "DELETE":
-
-                /// TODO 删除
+                /// TODO 更新
                 return [
-                    'ids' => "bail|required|array",
+                    'title' => "bail|required|between:2,32|unique:article_categories,title,{$id}",
+                    'sort'  => 'bail|integer|max:255',
                 ];
         }
     }

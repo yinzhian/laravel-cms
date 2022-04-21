@@ -55,7 +55,7 @@ class Article extends Model
             $query->where( "title", "LIKE", "%{$request->title}%" );
         } )->when( $request->filled( "article_category_id" ), function ( $query ) use ( $request ) {
             $query->where( "article_category_id", $request->article_category_id );
-        } )->when( $request->filled( "deleted" ), function ( $query ) {
+        } )->when( $request->boolean( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的
         } )->select( "id", "article_category_id", "title", "cover", "read_num", "sort", "created_at", 'updated_at', 'deleted_at' )
                    ->with( [ "article_category" ] )

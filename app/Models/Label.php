@@ -54,7 +54,7 @@ class Label extends Model
             $query->where( "title", "LIKE", "%{$request->title}%" );
         } )->when( $request->filled( "type" ), function ( $query ) use ( $request ) {
             $query->where( "type", $request->type );
-        } )->when( $request->filled( "deleted" ), function ( $query ) {
+        } )->when( $request->boolean( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的
         } )->select( "id", "title", "color", "icon", "type", "sort", "created_at", 'updated_at', 'deleted_at' )
                       ->orderBy( "sort", "DESC" )

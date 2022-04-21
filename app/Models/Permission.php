@@ -77,7 +77,7 @@ class Permission extends SpatiePermission
             $query->where( "status", $request->status );
         } )->when( $request->filled( "parent_id" ), function ( $query ) use ( $request ) {
             $query->where( "parent_id", $request->parent_id );
-        } )->when( $request->filled( "deleted" ), function ( $query ) {
+        } )->when( $request->boolean( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的
         } )->select( "id", "parent_id", "name", "title", "route", "icon", "is_menu", "status", "sort", 'updated_at', 'deleted_at' )
                            ->orderBy( "sort", "DESC" )

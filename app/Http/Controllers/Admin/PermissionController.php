@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommonRequest;
 use App\Http\Requests\PermissionRequest;
 use App\Models\Permission;
 use Illuminate\Http\Request;
@@ -85,10 +86,10 @@ class PermissionController extends Controller
      * Notes: 软删除
      * User: 一颗地梨子
      * DateTime: 2022/2/17 15:07
-     * @param PermissionRequest $request
+     * @param CommonRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete( PermissionRequest $request )
+    public function delete( CommonRequest $request )
     {
         if ( ! Permission::whereIn( "id", $request->get("ids") )->delete()  ) {
             return $this->fail();
@@ -101,10 +102,10 @@ class PermissionController extends Controller
      * Notes: 还原
      * User: 一颗地梨子
      * DateTime: 2022/3/22 11:28
-     * @param PermissionRequest $request
+     * @param CommonRequest $request
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function restore( PermissionRequest $request )
+    public function restore( CommonRequest $request )
     {
         if ( ! Permission::whereIn( "id", $request->get("ids") )->restore() ) {
             return $this->fail();

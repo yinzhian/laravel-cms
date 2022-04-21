@@ -53,19 +53,7 @@ class RoleRequest extends CommonRequest
                     return [
                         'permission_ids' => "bail|required|array"
                     ];
-                } else if ( Str::contains( $path, 'admin.role.restore' ) ) {
-
-                    /// TODO 还原
-                    return [
-                        'ids' => "bail|required|array"
-                    ];
                 }
-
-            case "DELETE":
-                /// TODO 删除
-                return [
-                    'ids' => "bail|required|array"
-                ];
         }
     }
 }

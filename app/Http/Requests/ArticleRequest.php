@@ -41,32 +41,18 @@ class ArticleRequest extends CommonRequest
 
             case "PUT":
 
-                if ( Str::contains( $path, 'admin.article.restore' ) ) {
-                    /// TODO 还原
-                    return [
-                        'ids' => "bail|required|array",
-                    ];
-                } else {
-                    // 路由中的参数
-                    $id = $this->route( 'id' );
+                // 路由中的参数
+                $id = $this->route( 'id' );
 
-                    /// TODO 更新
-                    return [
-                        'article_category_id' => 'bail|required|integer',
-                        'title'               => "bail|required|between:2,191|unique:articles,title,{$id}",
-                        'cover'               => 'bail|exclude_unless:cover,true|between:2,255',
-                        'describe'            => 'bail|exclude_unless:describe,true|between:2,255',
-                        'content'             => 'bail|required',
-                        'sort'                => 'bail|integer|max:255',
-                        'label'               => 'bail|required|array',
-                    ];
-                }
-
-            case "DELETE":
-
-                /// TODO 删除
+                /// TODO 更新
                 return [
-                    'ids' => "bail|required|array",
+                    'article_category_id' => 'bail|required|integer',
+                    'title'               => "bail|required|between:2,191|unique:articles,title,{$id}",
+                    'cover'               => 'bail|exclude_unless:cover,true|between:2,255',
+                    'describe'            => 'bail|exclude_unless:describe,true|between:2,255',
+                    'content'             => 'bail|required',
+                    'sort'                => 'bail|integer|max:255',
+                    'label'               => 'bail|required|array',
                 ];
         }
     }

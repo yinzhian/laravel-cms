@@ -101,7 +101,7 @@ class Admin extends Authenticatable implements JWTSubject
                   } );
         } )->when( filled( $request->filled( "status" ) ), function ( $query ) use ( $request ) {
             $query->where( "status", $request->status );
-        } )->when( $request->filled( "deleted" ), function ( $query ) {
+        } )->when( $request->boolean( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的
         } )->select( "id", "username", "real_name", "phone", "email", "avatar", "status", "created_at", 'updated_at', 'deleted_at' )
                       ->orderBy( "id", "DESC" )

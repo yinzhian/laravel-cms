@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\LabelTypeEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommonRequest;
 use App\Http\Requests\LabelRequest;
 use App\Models\Label;
 use Illuminate\Http\Request;
@@ -87,10 +88,10 @@ class LabelController extends Controller
      * Notes: 删除
      * User: 一颗地梨子
      * DateTime: 2022/3/14 18:04
-     * @param LabelRequest $request
+     * @param CommonRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete( LabelRequest $request )
+    public function delete( CommonRequest $request )
     {
         if ( ! Label::whereIn( "id", $request->get( "ids" ) )->delete() ) {
 
@@ -103,10 +104,10 @@ class LabelController extends Controller
      * Notes: 还原
      * User: 一颗地梨子
      * DateTime: 2022/3/22 11:29
-     * @param LabelRequest $request
+     * @param CommonRequest $request
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function restore( LabelRequest $request )
+    public function restore( CommonRequest $request )
     {
         if ( ! Label::whereIn( "id", $request->get( "ids" ) )->restore() ) {
             return $this->fail();

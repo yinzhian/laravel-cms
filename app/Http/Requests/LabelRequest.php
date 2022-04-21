@@ -40,30 +40,16 @@ class LabelRequest extends CommonRequest
 
             case "PUT":
 
-                if ( Str::contains( $path, 'admin.label.restore' ) ) {
-                    /// TODO 还原
-                    return [
-                        'ids' => "bail|required|array",
-                    ];
-                } else {
-                    // 路由中的参数
-                    $id = $this->route( 'id' );
+                // 路由中的参数
+                $id = $this->route( 'id' );
 
-                    /// TODO 更新
-                    return [
-                        'title' => "bail|required|between:2,32|unique:labels,title,{$id}",
-                        'color' => 'bail|exclude_unless:color,true|between:2,32',
-                        'icon'  => 'bail|exclude_unless:color,false|required|between:2,255',
-                        'type'  => 'bail|required|integer|in:' . join( ",", LabelTypeEnum::getAllKey() ),
-                        'sort'  => 'bail|integer|max:255',
-                    ];
-                }
-
-            case "DELETE":
-
-                /// TODO 删除
+                /// TODO 更新
                 return [
-                    'ids' => "bail|required|array",
+                    'title' => "bail|required|between:2,32|unique:labels,title,{$id}",
+                    'color' => 'bail|exclude_unless:color,true|between:2,32',
+                    'icon'  => 'bail|exclude_unless:color,false|required|between:2,255',
+                    'type'  => 'bail|required|integer|in:' . join( ",", LabelTypeEnum::getAllKey() ),
+                    'sort'  => 'bail|integer|max:255',
                 ];
         }
     }

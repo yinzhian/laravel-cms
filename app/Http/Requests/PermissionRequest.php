@@ -40,32 +40,19 @@ class PermissionRequest extends CommonRequest
 
             case "PUT":
 
-                if ( Str::contains( $path, 'admin.permission.restore' ) ) {
-                    /// TODO 还原删除
-                    return [
-                        'ids' => "bail|required|array"
-                    ];
-                } else {
-                    // 路由中的参数
-                    $permission_id = $this->route( 'id' );
+                // 路由中的参数
+                $permission_id = $this->route( 'id' );
 
-                    /// TODO 更新
-                    return [
-                        'parent_id' => 'bail|integer',
-                        'name'      => 'bail|required|between:2,191|unique:permissions,name,' . $permission_id,
-                        'title'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,title,' . $permission_id,
-                        'route'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,route,' . $permission_id,
-                        'icon'      => 'bail|exclude_unless:parent_id,false|max:255',
-                        'is_menu'   => 'bail|required|integer|in:' . join( ",", IsMenuEnum::getAllKey() ),
-                        'status'    => 'bail|required|integer|in:' . join( ",", StatusEnum::getAllKey() ),
-                        'sort'      => 'bail|between:1,255',
-                    ];
-                }
-
-            case "DELETE":
-                /// TODO 删除
+                /// TODO 更新
                 return [
-                    'ids' => "bail|required|array"
+                    'parent_id' => 'bail|integer',
+                    'name'      => 'bail|required|between:2,191|unique:permissions,name,' . $permission_id,
+                    'title'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,title,' . $permission_id,
+                    'route'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,route,' . $permission_id,
+                    'icon'      => 'bail|exclude_unless:parent_id,false|max:255',
+                    'is_menu'   => 'bail|required|integer|in:' . join( ",", IsMenuEnum::getAllKey() ),
+                    'status'    => 'bail|required|integer|in:' . join( ",", StatusEnum::getAllKey() ),
+                    'sort'      => 'bail|between:1,255',
                 ];
         }
     }

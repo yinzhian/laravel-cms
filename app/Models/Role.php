@@ -65,7 +65,7 @@ class Role extends SpatieRole
                   } );
         } )->when( $request->filled( "status" ), function ( $query ) use ( $request ) {
             $query->where( "status", $request->status );
-        } )->when( $request->filled( "deleted" ), function ( $query ) {
+        } )->when( $request->boolean( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的
         } )->select( "id", "name", "status", "sort", "created_at", 'updated_at', 'deleted_at' )
                      ->orderBy( "sort", "DESC" )

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommonRequest;
 use App\Http\Requests\RoleRequest;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -86,10 +87,10 @@ class RoleController extends Controller
      * Notes: 软删除
      * User: 一颗地梨子
      * DateTime: 2022/2/17 15:07
-     * @param RoleRequest $request
+     * @param CommonRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete( RoleRequest $request )
+    public function delete( CommonRequest $request )
     {
 
         if ( ! Role::whereIn( "id", $request->get("ids") )->delete() ) {
@@ -103,10 +104,10 @@ class RoleController extends Controller
      * Notes: 还原
      * User: 一颗地梨子
      * DateTime: 2022/3/22 11:23
-     * @param RoleRequest $request
+     * @param CommonRequest $request
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function restore( RoleRequest $request )
+    public function restore( CommonRequest $request )
     {
         if ( !Role::whereIn( "id", $request->get("ids") )->restore() ) {
             return $this->fail();

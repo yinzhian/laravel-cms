@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
+use App\Http\Requests\CommonRequest;
 use App\Models\Article;
 use Illuminate\Http\Request;
 
@@ -69,10 +70,10 @@ class ArticleController extends Controller
      * Notes: 删除
      * User: 一颗地梨子
      * DateTime: 2022/3/14 18:04
-     * @param ArticleRequest $request
+     * @param CommonRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete( ArticleRequest $request )
+    public function delete( CommonRequest $request )
     {
         if ( ! Article::whereIn( "id", $request->get( "ids" ) )->delete() ) {
 
@@ -85,10 +86,10 @@ class ArticleController extends Controller
      * Notes: 还原
      * User: 一颗地梨子
      * DateTime: 2022/3/22 11:29
-     * @param ArticleRequest $request
+     * @param CommonRequest $request
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function restore( ArticleRequest $request )
+    public function restore( CommonRequest $request )
     {
         if ( ! Article::whereIn( "id", $request->get( "ids" ) )->restore() ) {
             return $this->fail();

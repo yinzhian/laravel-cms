@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest;
+use App\Http\Requests\CommonRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -92,10 +93,10 @@ class AdminController extends Controller
      * Notes: 软删除
      * User: 一颗地梨子
      * DateTime: 2022/2/17 15:07
-     * @param AdminRequest $request
+     * @param CommonRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete( AdminRequest $request )
+    public function delete( CommonRequest $request )
     {
         if ( ! Admin::whereIn( "id", $request->get("ids") )->delete() ) {
             return $this->fail();
@@ -107,10 +108,10 @@ class AdminController extends Controller
      * Notes: 还原删除
      * User: 一颗地梨子
      * DateTime: 2022/2/17 15:07
-     * @param AdminRequest $request
+     * @param CommonRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function restore( AdminRequest $request )
+    public function restore( CommonRequest $request )
     {
         if ( ! Admin::whereIn( "id", $request->get("ids") )->restore() ) {
             return $this->fail();
