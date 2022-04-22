@@ -122,7 +122,6 @@ if ( ! function_exists( "arrayRemoveEmpty" ) ) {
     }
 }
 
-
 if ( ! function_exists( "diyLog" ) ) {
 
     /**
@@ -137,6 +136,28 @@ if ( ! function_exists( "diyLog" ) ) {
         ( new Logger( env( "APP_ENV", "local" ) ) )
             ->pushHandler( new RotatingFileHandler( storage_path( "logs/{$dir}/.log" ) ) )
             ->info( $title, $result && is_array( $result ) ? $result : [] );
+    }
+
+}
+
+if ( ! function_exists( "diyLogException" ) ) {
+
+    /**
+     * Notes: 记录异常日志
+     * User: 一颗地梨子
+     * DateTime: 2022/4/21 18:29
+     * @param $title
+     * @param $exception
+     */
+    function diyLogException ($title, $exception ) {
+
+        diyLog($title, [
+            "message" => $exception->getMessage(),
+            "file" => $exception->getFile(),
+            "line" => $exception->getLine(),
+            "code" => $exception->getCode(),
+        ], "exception");
+
     }
 
 }

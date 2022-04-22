@@ -43,15 +43,14 @@ class RouteServiceProvider extends ServiceProvider
             Route::pattern('id', '[0-9]+');
 
             Route::prefix('api')
-                ->middleware('api')
-                ->middleware(['throttle:global'])
+                ->middleware(['api', 'throttle:global', 'operate.log'])
                 ->name('member.')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
             Route::prefix('admin')
                  ->name('admin.')
-                ->middleware(['throttle:global'])
+                ->middleware(['throttle:global', 'operate.log'])
                  ->namespace($this->namespace)
                  ->group(base_path('routes/admin.php'));
 

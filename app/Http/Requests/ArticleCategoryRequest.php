@@ -30,7 +30,7 @@ class ArticleCategoryRequest extends CommonRequest
 
                 /// TODO 添加
                 return [
-                    'title' => 'bail|required|between:2,32|unique:article_categories,title',
+                    'title' => 'bail|required|between:2,32|unique:App\Models\ArticleCategory,title',
                     'sort'  => 'bail|integer|max:255',
                 ];
 
@@ -41,7 +41,7 @@ class ArticleCategoryRequest extends CommonRequest
 
                 /// TODO 更新
                 return [
-                    'title' => "bail|required|between:2,32|unique:article_categories,title,{$id}",
+                    'title' => "bail|required|between:2,32|unique:App\Models\ArticleCategory,title,{$id}",
                     'sort'  => 'bail|integer|max:255',
                 ];
         }
