@@ -20,7 +20,7 @@ class CreateArticleCategoriesTable extends Migration
         Schema::create($table, function (Blueprint $table) {
             $table->id();
             $table->string("title", 64)->unique()->comment("标题");
-            $table->unsignedTinyInteger("sort", false)->default(255)->comment("排序");
+            $table->unsignedTinyInteger("sort", false)->nullable()->default(255)->comment("排序");
             $table->timestamps();
             $table->softDeletes();
         });

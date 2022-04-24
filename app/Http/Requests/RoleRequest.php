@@ -27,27 +27,27 @@ class RoleRequest extends CommonRequest
 
                 /// TODO 添加
                 return [
-                    'name'   => 'required|between:2,32|unique:roles,name',
-                    'title'  => 'required|between:2,32|unique:roles,title',
+                    'name'   => 'required|between:2,32|unique:App\Models\Role,name',
+                    'title'  => 'required|between:2,32|unique:App\Models\Role,title',
                     'status' => 'required|integer|in:' . join( ",", StatusEnum::getAllKey() ),
                     'sort'   => 'between:1,255',
                 ];
 
             case "PUT":
 
-                if ( Str::contains( $path, 'admin.role.update' ) ) {
+                if ( Str::contains( $path, 'update' ) ) {
 
                     // 路由中的参数
                     $role_id = $this->route( 'id' );
 
                     /// TODO 更新
                     return [
-                        'name'   => "required|between:2,32|unique:roles,name,{$role_id}",
-                        'title'  => "required|between:2,32|unique:roles,title,{$role_id}",
+                        'name'   => "required|between:2,32|unique:App\Models\Role,name,{$role_id}",
+                        'title'  => "required|between:2,32|unique:App\Models\Role,title,{$role_id}",
                         'status' => 'required|integer|in:' . join( ",", StatusEnum::getAllKey() ),
                         'sort'   => 'between:1,255',
                     ];
-                } else if ( Str::contains( $path, 'admin.role.empower' ) ) {
+                } else if ( Str::contains( $path, 'empower' ) ) {
 
                     /// TODO 授权
                     return [

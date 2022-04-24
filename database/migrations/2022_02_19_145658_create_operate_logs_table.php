@@ -25,7 +25,7 @@ class CreateOperateLogsTable extends Migration
             $table->longText("param")->nullable()->comment("参数");
             $table->String("method", 8)->nullable()->comment("请求方式");
             $table->String("ip", 161)->nullable()->comment("IP");
-            $table->unsignedTinyInteger("client_type", false)->default(\App\Enums\ClientEnum::ADMIN['key'])->comment("客户端类型");
+            $table->unsignedTinyInteger("client_type", false)->nullable()->default(\App\Enums\ClientEnum::ADMIN['key'])->comment("客户端类型");
             $table->timestamps();
             $table->softDeletes();
         });

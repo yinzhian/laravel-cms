@@ -25,8 +25,8 @@ class CreateConfigsTable extends Migration
             $table->String("value")->nullable()->comment("配置值");
             $table->String("type", 32)->nullable()->default(\App\Enums\ConfigTypeEnum::INPUT["key"])->comment("类型");
             $table->longText("option")->nullable()->comment("选项");
-            $table->unsignedTinyInteger("sort", false)->default(255)->comment("排序");
-            $table->unsignedTinyInteger("status", false)->default(\App\Enums\StatusEnum::ENABLE["key"])->comment("状态");
+            $table->unsignedTinyInteger("sort", false)->nullable()->default(255)->comment("排序");
+            $table->unsignedTinyInteger("status", false)->nullable()->default(\App\Enums\StatusEnum::ENABLE["key"])->comment("状态");
             $table->timestamps();
             $table->softDeletes();
         });

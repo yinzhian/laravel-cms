@@ -24,8 +24,8 @@ class CreateMemberVouchersTable extends Migration
             $table->unsignedBigInteger( "member_id", false )->comment( "用户ID" );
             $table->string( "account", 191 )->comment( "账号" );
             $table->string( "voucher", 255 )->nullable()->comment( "凭证" );
-            $table->unsignedTinyInteger( "login_type", false )->default( LoginTypeEnum::WECHAT_MINI_APP["key"] )->comment( "登录类型" );
-            $table->unsignedTinyInteger( "status", false )->default( StatusEnum::ENABLE["key"] )->comment( "状态" );
+            $table->unsignedTinyInteger( "login_type", false )->nullable()->default( LoginTypeEnum::WECHAT_MINI_APP["key"] )->comment( "登录类型" );
+            $table->unsignedTinyInteger( "status", false )->nullable()->default( StatusEnum::ENABLE["key"] )->comment( "状态" );
             $table->timestamps();
             $table->softDeletes();
         } );

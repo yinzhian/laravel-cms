@@ -31,9 +31,9 @@ class ArticleRequest extends CommonRequest
                 /// TODO 添加
                 return [
                     'article_category_id' => 'bail|required|integer',
-                    'title'               => 'bail|required|between:2,191|unique:articles,title',
-                    'cover'               => 'bail|exclude_unless:cover,true|between:2,255',
-                    'describe'            => 'bail|exclude_unless:describe,true|between:2,255',
+                    'title'               => 'bail|required|between:2,191|unique:App\Models\Article,title',
+                    'cover'               => 'bail|nullable|between:2,255',
+                    'describe'            => 'bail|nullable|between:2,255',
                     'content'             => 'bail|required',
                     'sort'                => 'bail|integer|max:255',
                     'label'               => 'bail|required|array',
@@ -47,9 +47,9 @@ class ArticleRequest extends CommonRequest
                 /// TODO 更新
                 return [
                     'article_category_id' => 'bail|required|integer',
-                    'title'               => "bail|required|between:2,191|unique:articles,title,{$id}",
-                    'cover'               => 'bail|exclude_unless:cover,true|between:2,255',
-                    'describe'            => 'bail|exclude_unless:describe,true|between:2,255',
+                    'title'               => "bail|required|between:2,191|unique:App\Models\Article,title,{$id}",
+                    'cover'               => 'bail|nullable|between:2,255',
+                    'describe'            => 'bail|nullable|between:2,255',
                     'content'             => 'bail|required',
                     'sort'                => 'bail|integer|max:255',
                     'label'               => 'bail|required|array',

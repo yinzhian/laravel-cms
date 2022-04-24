@@ -22,8 +22,8 @@ class CreateLabelsTable extends Migration
             $table->string("title", 255)->comment("标题");
             $table->string("color", 191)->nullable()->comment("颜色");
             $table->string("icon", 255)->nullable()->comment("图标");
-            $table->unsignedTinyInteger("type", false)->default(\App\Enums\LabelTypeEnum::ARTICLE["key"])->comment("类型");
-            $table->unsignedTinyInteger("sort", false)->default(255)->comment("排序");
+            $table->unsignedTinyInteger("type", false)->nullable()->default(\App\Enums\LabelTypeEnum::ARTICLE["key"])->comment("类型");
+            $table->unsignedTinyInteger("sort", false)->nullable()->default(255)->comment("排序");
             $table->timestamps();
             $table->softDeletes();
         });

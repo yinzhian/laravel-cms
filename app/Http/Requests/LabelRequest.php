@@ -31,9 +31,9 @@ class LabelRequest extends CommonRequest
 
                 /// TODO 添加
                 return [
-                    'title' => 'bail|required|between:2,32|unique:labels,title',
-                    'color' => 'bail|exclude_unless:color,true|between:2,32',
-                    'icon'  => 'bail|exclude_unless:color,false|required|between:2,255',
+                    'title' => 'bail|required|between:2,32|unique:App\Models\Label,title',
+                    'color' => 'bail|nullable|between:2,32',
+                    'icon'  => 'bail|nullable|required|between:2,255',
                     'type'  => 'bail|required|integer|in:' . join( ",", LabelTypeEnum::getAllKey() ),
                     'sort'  => 'bail|integer|max:255',
                 ];
@@ -45,9 +45,9 @@ class LabelRequest extends CommonRequest
 
                 /// TODO 更新
                 return [
-                    'title' => "bail|required|between:2,32|unique:labels,title,{$id}",
-                    'color' => 'bail|exclude_unless:color,true|between:2,32',
-                    'icon'  => 'bail|exclude_unless:color,false|required|between:2,255',
+                    'title' => "bail|required|between:2,32|unique:App\Models\Label,title,{$id}",
+                    'color' => 'bail|nullable|between:2,32',
+                    'icon'  => 'bail|nullable|required|between:2,255',
                     'type'  => 'bail|required|integer|in:' . join( ",", LabelTypeEnum::getAllKey() ),
                     'sort'  => 'bail|integer|max:255',
                 ];

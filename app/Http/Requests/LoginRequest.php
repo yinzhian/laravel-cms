@@ -40,11 +40,11 @@ class LoginRequest extends CommonRequest
                     'data'        => 'bail|exclude_unless:login_type,' . LoginTypeEnum::WECHAT_MINI_APP["key"] . '|required|string',
                     'invite_code' => 'bail|exclude_unless:invite_code,true|between:4,10',
                     'phone'       => 'bail|regex:/^1[3456789]{1}\d{9}$/',
-                    'password'    => 'bail|exclude_unless:phone,true|between:6,20',
-                    'nick'        => 'bail|exclude_unless:nick,true|between:2,32',
-                    'avatar'      => 'bail|exclude_unless:avatar,true|max:255',
-                    'sex'         => 'bail|exclude_unless:sex,true|integer|in:' . join( ",", SexEnum::getAllKey() ),
-                    'source'      => 'bail|exclude_unless:source,true|integer|in:' . join( ",", SourceEnum::getAllKey() ),
+                    'password'    => 'bail|nullable|between:6,20',
+                    'nick'        => 'bail|nullable|between:2,32',
+                    'avatar'      => 'bail|nullable|max:255',
+                    'sex'         => 'bail|nullable|integer|in:' . join( ",", SexEnum::getAllKey() ),
+                    'source'      => 'bail|nullable|integer|in:' . join( ",", SourceEnum::getAllKey() ),
                 ];
         }
     }

@@ -20,13 +20,13 @@ class CreateArticlesTable extends Migration
         Schema::create($table, function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("admin_id", false)->comment("管理员ID");
-            $table->unsignedBigInteger("article_category_id", false)->comment("分类ID");
+            $table->unsignedBigInteger("article_category_id", false)->nullable()->comment("分类ID");
             $table->string("title", 191)->unique()->comment("标题");
             $table->string("cover", 255)->nullable()->comment("封面图");
             $table->string("describe", 255)->nullable()->comment("描述");
-            $table->longText("content")->comment("内容");
-            $table->unsignedBigInteger("read_num", false)->default(0)->comment("阅读量");
-            $table->unsignedTinyInteger("sort", false)->default(255)->comment("排序");
+            $table->longText("content")->nullable()->comment("内容");
+            $table->unsignedBigInteger("read_num", false)->nullable()->default(0)->comment("阅读量");
+            $table->unsignedTinyInteger("sort", false)->nullable()->default(255)->comment("排序");
             $table->timestamps();
             $table->softDeletes();
         });

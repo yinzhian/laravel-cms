@@ -29,7 +29,7 @@ class PermissionRequest extends CommonRequest
                 /// TODO 添加
                 return [
                     'parent_id' => 'bail|integer',
-                    'name'      => 'bail|required|between:2,191|unique:permissions,name',
+                    'name'      => 'bail|required|between:2,191|unique:App\Models\Permission,name',
                     'title'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,title',
                     'route'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,route',
                     'icon'      => 'bail|exclude_unless:parent_id,false|max:255',
@@ -46,7 +46,7 @@ class PermissionRequest extends CommonRequest
                 /// TODO 更新
                 return [
                     'parent_id' => 'bail|integer',
-                    'name'      => 'bail|required|between:2,191|unique:permissions,name,' . $permission_id,
+                    'name'      => 'bail|required|between:2,191|unique:App\Models\Permission,name,' . $permission_id,
                     'title'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,title,' . $permission_id,
                     'route'     => 'bail|exclude_unless:parent_id,true|between:2,32|unique:permissions,route,' . $permission_id,
                     'icon'      => 'bail|exclude_unless:parent_id,false|max:255',
