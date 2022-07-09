@@ -93,7 +93,7 @@ class LabelController extends Controller
      */
     public function delete( CommonRequest $request )
     {
-        if ( ! Label::whereIn( "id", $request->get( "ids" ) )->delete() ) {
+        if ( ! Label::whereIn( "id", $request->ids )->delete() ) {
 
             return $this->fail();
         }
@@ -109,7 +109,7 @@ class LabelController extends Controller
      */
     public function restore( CommonRequest $request )
     {
-        if ( ! Label::whereIn( "id", $request->get( "ids" ) )->restore() ) {
+        if ( ! Label::whereIn( "id", $request->ids )->restore() ) {
             return $this->fail();
         }
         return $this->ok();

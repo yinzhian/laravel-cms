@@ -98,7 +98,7 @@ class AdminController extends Controller
      */
     public function delete( CommonRequest $request )
     {
-        if ( ! Admin::whereIn( "id", $request->get("ids") )->delete() ) {
+        if ( ! Admin::whereIn( "id", $request->ids )->delete() ) {
             return $this->fail();
         }
         return $this->ok();
@@ -113,7 +113,7 @@ class AdminController extends Controller
      */
     public function restore( CommonRequest $request )
     {
-        if ( ! Admin::whereIn( "id", $request->get("ids") )->restore() ) {
+        if ( ! Admin::whereIn( "id", $request->ids )->restore() ) {
             return $this->fail();
         }
         return $this->ok();
@@ -130,7 +130,7 @@ class AdminController extends Controller
     public function addRole( AdminRequest $request, $id )
     {
         // 参数 数组:[1,2,3]
-        $role_ids = $request->get( "role_ids" );
+        $role_ids = $request->role_ids;
 
         $admin = Admin::find( $id );
 
@@ -155,7 +155,7 @@ class AdminController extends Controller
     public function empower( AdminRequest $request, $id )
     {
         // 参数 数组:[1,2,3]
-        $permission_ids = $request->get( "permission_ids" );
+        $permission_ids = $request->permission_ids;
 
         $admin = Admin::find( $id );
 

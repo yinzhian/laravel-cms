@@ -50,9 +50,9 @@ class Label extends Model
     static function list( Request $request )
     {
 
-        $labels = self::when( $request->filled( "title" ), function ( $query ) use ( $request ) {
+        $labels = self::when( $request->title, function ( $query ) use ( $request ) {
             $query->where( "title", "LIKE", "%{$request->title}%" );
-        } )->when( $request->filled( "type" ), function ( $query ) use ( $request ) {
+        } )->when( filled($request->type), function ( $query ) use ( $request ) {
             $query->where( "type", $request->type );
         } )->when( $request->boolean( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的

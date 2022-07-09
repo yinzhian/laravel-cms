@@ -51,9 +51,9 @@ class Article extends Model
     static function list( Request $request )
     {
 
-        return self::when( $request->filled( "title" ), function ( $query ) use ( $request ) {
+        return self::when( $request->title, function ( $query ) use ( $request ) {
             $query->where( "title", "LIKE", "%{$request->title}%" );
-        } )->when( $request->filled( "article_category_id" ), function ( $query ) use ( $request ) {
+        } )->when( $request->article_category_id, function ( $query ) use ( $request ) {
             $query->where( "article_category_id", $request->article_category_id );
         } )->when( $request->boolean( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的

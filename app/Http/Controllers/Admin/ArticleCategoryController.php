@@ -75,7 +75,7 @@ class ArticleCategoryController extends Controller
      */
     public function delete( CommonRequest $request )
     {
-        if ( ! ArticleCategory::whereIn( "id", $request->get( "ids" ) )->delete() ) {
+        if ( ! ArticleCategory::whereIn( "id", $request->ids )->delete() ) {
 
             return $this->fail();
         }
@@ -91,7 +91,7 @@ class ArticleCategoryController extends Controller
      */
     public function restore( CommonRequest $request )
     {
-        if ( ! ArticleCategory::whereIn( "id", $request->get( "ids" ) )->restore() ) {
+        if ( ! ArticleCategory::whereIn( "id", $request->ids )->restore() ) {
             return $this->fail();
         }
         return $this->ok();

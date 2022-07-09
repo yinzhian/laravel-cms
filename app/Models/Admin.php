@@ -88,18 +88,20 @@ class Admin extends Authenticatable implements JWTSubject
     static function list( Request $request )
     {
 
-        $admins = self::when( $request->filled( "username" ), function ( $query ) use ( $request ) {
-            $query->where( "username", "LIKE", "%{$request->username}%" )
-                  ->orWhere( function ( $query ) use ( $request ) {
-                      $query->where( "real_name", "LIKE", "%{$request->username}%" );
-                  } )
-                  ->orWhere( function ( $query ) use ( $request ) {
-                      $query->where( "phone", "LIKE", "%{$request->username}%" );
-                  } )
-                  ->orWhere( function ( $query ) use ( $request ) {
-                      $query->where( "email", "LIKE", "%{$request->username}%" );
-                  } );
-        } )->when( filled( $request->filled( "status" ) ), function ( $query ) use ( $request ) {
+        $admins = self::when( $request->username, function ( $query ) use ( $request ) {
+            $query->where( function ($query) use ( $request ) {
+                $query->where( "username", "LIKE", "%{$request->username}%" )
+                      ->orWhere( function ( $query ) use ( $request ) {
+                          $query->where( "real_name", "LIKE", "%{$request->username}%" );
+                      } )
+                      ->orWhere( function ( $query ) use ( $request ) {
+                          $query->where( "phone", "LIKE", "%{$request->username}%" );
+                      } )
+                      ->orWhere( function ( $query ) use ( $request ) {
+                          $query->where( "email", "LIKE", "%{$request->username}%" );
+                      } );
+            });
+        } )->when( filled( $request->status ), function ( $query ) use ( $request ) {
             $query->where( "status", $request->status );
         } )->when( $request->boolean( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的

@@ -58,12 +58,14 @@ class Role extends SpatieRole
      */
     static function list( Request $request )
     {
-        $roles = self::when( $request->filled( "name" ), function ( $query ) use ( $request ) {
-            $query->where( "name", "LIKE", "%{$request->name}%" )
-                  ->orWhere( function ( $query ) use ( $request ) {
-                      $query->where( "title", "LIKE", "%{$request->name}%" );
-                  } );
-        } )->when( $request->filled( "status" ), function ( $query ) use ( $request ) {
+        $roles = self::when( $request->name, function ( $query ) use ( $request ) {
+            $query->where( function ( $query ) use ( $request ) {
+                $query->where( "name", "LIKE", "%{$request->name}%" )
+                      ->orWhere( function ( $query ) use ( $request ) {
+                          $query->where( "title", "LIKE", "%{$request->name}%" );
+                      } );
+            });
+        } )->when( filled($request->status), function ( $query ) use ( $request ) {
             $query->where( "status", $request->status );
         } )->when( $request->boolean( "deleted" ), function ( $query ) {
             $query->onlyTrashed(); // 仅查询已删除的

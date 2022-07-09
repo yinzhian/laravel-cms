@@ -91,7 +91,7 @@ class PermissionController extends Controller
      */
     public function delete( CommonRequest $request )
     {
-        if ( ! Permission::whereIn( "id", $request->get("ids") )->delete()  ) {
+        if ( ! Permission::whereIn( "id", $request->ids )->delete()  ) {
             return $this->fail();
         }
 
@@ -107,7 +107,7 @@ class PermissionController extends Controller
      */
     public function restore( CommonRequest $request )
     {
-        if ( ! Permission::whereIn( "id", $request->get("ids") )->restore() ) {
+        if ( ! Permission::whereIn( "id", $request->ids )->restore() ) {
             return $this->fail();
         }
         return $this->ok();
